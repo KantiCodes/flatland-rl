@@ -25,7 +25,7 @@ from utils.observation_utils import normalize_observation
 # EVALUATION PARAMETERS
 
 # Print per-step logs
-VERBOSE = True
+VERBOSE = False
 
 # Checkpoint to use (remember to push it!)
 checkpoint = "checkpoints/sample-checkpoint.pth"
@@ -57,7 +57,7 @@ policy = DDDQNPolicy(state_size, action_size, Namespace(**{'use_gpu': False}), e
 if os.path.isfile(checkpoint):
     policy.qnetwork_local = torch.load(checkpoint)
 else:
-    print("Checkpoint not found, using untrained policy! (path: {})".format(checkpoint))
+    print("[WARNING] Checkpoint not found, using untrained policy! (path: {})".format(checkpoint))
 
 #####################################################################
 # Main evaluation loop
@@ -66,6 +66,8 @@ evaluation_number = 0
 
 while True:
     evaluation_number += 1
+    print("[INFO] EPISODE_START : {}".format(evaluation_number))
+
 
     # We use a dummy observation and call TreeObsForRailEnv ourselves when needed.
     # This way we decide if we want to calculate the observations or not instead
@@ -83,8 +85,8 @@ while True:
         # and hence it's safe to break out of the main evaluation loop.
         break
 
-    print("Env Path : ", remote_client.current_env_path)
-    print("Env Creation Time : ", env_creation_time)
+    print("[INFO] Env Path : ", remote_client.current_env_path)
+    print("[INFO] Env Creation Time : ", env_creation_time)
 
     local_env = remote_client.env
     nb_agents = len(local_env.agents)
@@ -94,7 +96,7 @@ while True:
     tree_observation.reset()
     observation = tree_observation.get_many(list(range(nb_agents)))
 
-    print("Evaluation {}: {} agents in {}x{}".format(evaluation_number, nb_agents, local_env.width, local_env.height))
+    print("[INFO] Evaluation {}: {} agents in {}x{}".format(evaluation_number, nb_agents, local_env.width, local_env.height))
 
     # Now we enter into another infinite loop where we
     # compute the actions for all the individual steps in this episode
@@ -143,7 +145,12 @@ while True:
                 time_taken_by_controller.append(agent_time)
 
                 time_start = time.time()
-                _, all_rewards, done, info = remote_client.env_step(action_dict)
+
+                try:
+                    _, all_rewards, done, info = remote_client.env_step(action_dict)
+                except:
+                    print("[ERR] DONE BUT step()_1 CALLED")
+
                 step_time = time.time() - time_start
                 time_taken_per_step.append(step_time)
 
@@ -156,14 +163,19 @@ while True:
                 no_ops_mode = True
 
                 time_start = time.time()
-                _, all_rewards, done, info = remote_client.env_step({})
+
+                try:
+                    _, all_rewards, done, info = remote_client.env_step({})
+                except:
+                    print("[ERR] DONE BUT step()_2 CALLED")                
+                
                 step_time = time.time() - time_start
                 time_taken_per_step.append(step_time)
 
             nb_agents_done = sum(done[idx] for idx in local_env.get_agent_handles())
 
             if VERBOSE or done['__all__']:
-                print("Step {}/{}\tAgents done: {}\t Obs time {:.3f}s\t Inference time {:.5f}s\t Step time {:.3f}s\t Cache hits {}\t No-ops? {}".format(
+                print("[INFO] Step {}/{}\tAgents done: {}\t Obs time {:.3f}s\t Inference time {:.5f}s\t Step time {:.3f}s\t Cache hits {}\t No-ops? {}".format(
                     str(steps).zfill(4),
                     max_nb_steps,
                     nb_agents_done,
@@ -178,14 +190,14 @@ while True:
                 # When done['__all__'] == True, then the evaluation of this
                 # particular Env instantiation is complete, and we can break out
                 # of this loop, and move onto the next Env evaluation
-                print()
+                print("[INFO] EPISODE_DONE : ", evaluation_number)
                 break
 
         except TimeoutException as err:
             # A timeout occurs, won't get any reward for this episode :-(
             # Skip to next episode as further actions in this one will be ignored.
             # The whole evaluation will be stopped if there are 10 consecutive timeouts.
-            print("Timeout! Will skip this episode and go to the next.", err)
+            print("[ERR] Timeout! Will skip this episode and go to the next.", err)
             break
 
     np_time_taken_by_controller = np.array(time_taken_by_controller)
