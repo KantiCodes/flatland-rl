@@ -1,3 +1,5 @@
+![](https://images.aicrowd.com/raw_images/challenges/banner_file/895/d16b2933c93aa14f8eae.jpg)
+
 This is the starter kit for the [Flatland 3 Challenge](https://www.aicrowd.com/challenges/flatland-3) hosted on [AIcrowd](https://www.aicrowd.com). Clone the repository to compete now!
 
 This repository contains:
