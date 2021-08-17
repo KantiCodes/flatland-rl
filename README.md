@@ -53,6 +53,8 @@ Clone the starter kit repository and install the dependencies.
 git clone https://gitlab.aicrowd.com/flatland/flatland-starter-kit
 cd flatland-starter-kit
 
+pip install git+http://gitlab.aicrowd.com/flatland/flatland.git
+
 conda env create -f environment.yml
 ```
 
