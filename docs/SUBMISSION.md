@@ -23,9 +23,9 @@ Then you can create a submission by making a _tag push_ to your repository on [h
 Then you can add the correct git remote, and finally submit by doing :
 
 ```
-cd neuralmmo-starter-kit
+cd flatland-starter-kit
 # Add AIcrowd git remote endpoint
-git remote add aicrowd git@gitlab.aicrowd.com:<YOUR_AICROWD_USER_NAME>/neuralmmo-starter-kit.git
+git remote add aicrowd git@gitlab.aicrowd.com:<YOUR_AICROWD_USER_NAME>/flatland-starter-kit.git
 git push aicrowd master
 ```
 

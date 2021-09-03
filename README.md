@@ -76,7 +76,7 @@ Implement an agent that is capable of adding producing actions for every train i
 --- | ---
 [`baselines`](baselines) | Directory containing an example RL agent as well as training code for the same. Please refer to `baselines/README.md` for further details.
 [`utils/submit.sh`](utils/submit.sh) | Helper script to submit your repository to [AIcrowd GitLab](https://gitlab.aicrowd.com).
-[`Dockerfile`](Dockerfile) | You can add a Dockerfile for specifying your exact environment. Refer to `docs/RUNTIME.md` for further details.
+[`Dockerfile`](Dockerfile) | (Optional) You can add a Dockerfile for specifying your exact environment. Refer to `docs/RUNTIME.md` for further details.
 [`environment.yml`](environment.yml) | File containing the list of python packages you want to install for the submission to run. This will instantiate a conda environment.
 [`apt.txt`](apt.txt) | File containing the list of packages you want to install for submission to run. Refer [runtime configuration](#runtime-configuration) for more information.
 [`run.sh`](evaluator) | **Submission entrypoint** - Use this as the entrypoint to run your code you need to run for your submission.
