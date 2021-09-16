@@ -3,21 +3,32 @@
 ## **Installation setup steps**
 
 ### **How to specify your installation setup for the submission**
-The entrypoint to the installation is the Dockerfile
-The Dockerfile provided will have commands to install apt packages from apt.txt and pip packages from requirements.txt
-You are strongly advised to specify the version of the library that you use to use for your submission
+The entrypoint to the installation is the Dockerfile.
+The default Dockerfile we use for evaluation will have commands to install apt packages from **apt.txt** and python modules from **environment.yml** by running `conda env create -f environment.yml`.
+You are strongly advised to specify the version of the library that you use to use for your submission.
 
-Examples
+Examples:
 
-For requirements.txt
+For **environment.yml**
 
-```torch==1.8.1```
+```yaml
+name: flatland-rl
+channels:
+  - pytorch
+  - conda-forge
+  - defaults
+dependencies:
+  - psutil==5.7.2
+  - pytorch==1.6.0
+  - pip==20.2.3
+  - python==3.6.8
+  - pip:
+      - tensorboard==2.3.0
+      - tensorboardx==2.1
+      - git+https://github.com/tqdm/tqdm.git@devel#egg=tqdm
+```
 
-You can add git repositories to requirements.txt as well
-
-```git+https://github.com/tqdm/tqdm.git@devel#egg=tqdm```
-
-For apt.txt
+For **apt.txt**
 
 ```firefox=45.0.2+build1-0ubuntu1```
 
@@ -57,4 +68,4 @@ A common error is not specifying one or multiple required libraries
 
 - What’s the package versions I have installed on my machine?
 
-  - You can find the versions of the python package installations you currently have using pip freeze
+  - You can find the versions of the python package installations you currently have using `pip freeze`.
