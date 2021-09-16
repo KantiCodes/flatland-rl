@@ -14,11 +14,13 @@ This repository contains:
 
 # Table of contents
 
-- [📚 Competition procedure](#-competition-procedure)
+- [⚔️ Competition procedure](#-competition-procedure)
+- [🚃 Flatland 3 Environment](#-flatland-3-environment)
+  * [🕰 What's new in Flatland 3?](#-what's-new-in-flatland-3)
 - [💪 Getting started](#-getting-started)
 - [🛠 Preparing your submission](#-preparing-your-submission)
   * [Write your agents](#write-your-agents)
-- [🚃 Submission](#-submission)
+- [📚 Submission](#-submission)
   * [Repository Structure](#repository-structure)
   * [Runtime configuration](#runtime-configuration)
   * [🚀 Submitting to AIcrowd](#-submitting-to-aicrowd)
@@ -29,9 +31,26 @@ This repository contains:
 - [📎 Important links](#-important-links)
 - [✨ Contributors](#-contributors)
 
-# 📚 Competition procedure
+# 🚃 Flatland 3 Environment
 
 Flatland tackles a key problem in the transportation world: **How to efficiently manage dense traffic on complex railway networks?**
+
+Flatland is a simulated game environment aiming to test multi-agent reinforcment learning solutions for scheduling trains. Flatland procedurally generates maps with train tracks and cities for any given grid size. It populates these maps with trains to be taken from a source city to a destination within a time constraint. The challenge is to deal with stochasticity of malfunctions while efficiently scheduling the all trains.
+
+Check the [Flatland Documentation](https://flatland.aicrowd.com/intro.html) to find out more.
+
+## 🕰 What's new in Flatland 3?
+
+Up until this point, the trains in Flatland were allowed to depart and arrive whenever they desired, the only goal was to make every train reach its destination as fast as possible. However, things are quite different in the real world. Timing and punctuality are crucial to railways. Trains have specific schedules. They are expected to depart and arrive at particular times.
+
+This concept has been introduced to the environment in Flatland 3.0. Trains now have a time window within which they are expected to start and reach their destination.
+
+Timetable attributes can now be accessed with `agent.earliest_departure` and `agent.latest_arrival` for every agent in a Flatland environment instance.
+
+For people who have worked on Flatland previously, check the [migration guide](https://gitlab.aicrowd.com/flatland/flatland-starter-kit/-/blob/master/docs/flatland-3-migration-guide.md) for other code changes in Flatland 3.
+
+
+# ⚔️ Competition procedure
 
 In this challenge, you will pit your ideas on reinforcement learning and operations research to get the best solution to Flatland 3. Your contribution may shape the way modern traffic management systems are implemented, not only in railway but also in other areas of transportation and logistics!
 
@@ -68,7 +87,7 @@ Implement an agent that is capable of adding producing actions for every train i
 
 **Note:** Please note that the maps are generated on the evaluator and your cannot control the settings for map generation.
 
-# 🚃 Submission
+# 📚 Submission
 
 ## Repository Structure
 
