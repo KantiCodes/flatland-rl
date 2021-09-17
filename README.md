@@ -66,7 +66,7 @@ In this challenge, you will pit your ideas on reinforcement learning and operati
 
 # 💪 Getting started
 
-> We recommend using `python 3.8`. If you are using Miniconda/Anaconda, you can install it using `conda install python=3.8`.
+> We recommend using `python 3.6`. If you are using Miniconda/Anaconda, you can install it using `conda install python=3.6`.
 
 Clone the starter kit repository and install the dependencies.
 

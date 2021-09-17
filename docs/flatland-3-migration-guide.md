@@ -24,19 +24,32 @@ Flatland 3 introduces a `WAITING` state for every train, in which all actions wi
 
 ## 4. Change from `RailAgentStatus` to `TrainState`
 
-The Flatland `env.step` function has been refactored to include a state machine for better intepretability of the functions for people who like to read and hack the code. 
+The Flatland `env.step` function has been refactored to include a state machine for better intepretability of the functions for people who like to read, modify, and extend the functionality of the code as per their requirements.
 
 The older `RailAgentStatus` and the attribute `agent.moving` is now changed to `TrainState`.
 
 This can now be accessed as `agent.state` instead of `agent.status`.
 
+For more information on state machine please check https://flatland.aicrowd.com/environment/state_machine.html
+
 ---
 
 ## 5. Removal of `agent.malfunction_data` and `agent.speed_data`
 
-Flatland 2 used to represent malfunctions in a dictionary `agent.malfunction_data`, this is now moved to the class `agent.malfucntion_handler` which keeps the same behvaior but refactored for better readability. 
+Flatland 2 used to represent malfunctions in a dictionary `agent.malfunction_data`, this is now moved to the class `agent.malfucntion_handler` which keeps the **same functionality** but refactored for better readability. 
 
-Train speed and partial fractional position in cells was stored in the dictionary `agent.speed_data`, this is now moved to the class `agent.speed_counter`, which keeps the same functionality but refactored as a counter instead of fractional position.
+The common changes needed for older code using malfunction data are:
+
+`agent.malunction_data['malfunction']` -> `agent.malfunction_handler.malfunction_downd_counter`
+
+`agent.malfunction_data['nr_malfunctions']` -> `agent.malfunction_handler.num_malfunctions`
+
+Train speed and partial fractional position in cells was stored in the dictionary `agent.speed_data`, this is now moved to the class `agent.speed_counter`, which keeps the **same functionality** but refactored as a counter instead of fractional position.
+
+The common changes needed for older code using speed_data are:
+
+`agent.speed_data['speed']` -> `agent.speed_counter.speed`
+`agent.speed_data['position_fraction']` -> `agent.speed_counter.counter`, where position fraction indicated the fraction of completed movement, the speed counter counts upto `agent.speed_counter.max_count` before resetting.
 
 ---
 
