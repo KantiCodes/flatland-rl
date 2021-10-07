@@ -1,5 +1,18 @@
 ![](https://images.aicrowd.com/raw_images/challenges/banner_file/895/d16b2933c93aa14f8eae.jpg)
 
+# In order to start
+
+Activate virtualenv and generate the requirements file with::
+
+    Linux: python3 -m piptools compile -r dev-requirements.in
+    Windows: python -m piptools compile -r dev-requirements.in
+
+Install packages with::
+
+    Linux: python3 -m pip install -r dev-requirements.txt
+    Windows: python -m pip install -r dev-requirements.txt
+
+
 This is the starter kit for the [Flatland 3 Challenge](https://www.aicrowd.com/challenges/flatland-3) hosted on [AIcrowd](https://www.aicrowd.com). Clone the repository to compete now!
 
 This repository contains:
