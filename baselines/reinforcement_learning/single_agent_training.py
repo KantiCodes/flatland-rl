@@ -14,7 +14,7 @@ import torch
 
 from flatland.envs.rail_env import RailEnv
 from flatland.envs.rail_generators import sparse_rail_generator
-from flatland.envs.schedule_generators import sparse_schedule_generator
+from flatland.envs.line_generators import sparse_line_generator
 from utils.observation_utils import normalize_observation
 from flatland.envs.observations import TreeObsForRailEnv
 
@@ -62,9 +62,8 @@ def train_agent(n_episodes):
             seed=seed,
             grid_mode=False,
             max_rails_between_cities=max_rails_between_cities,
-            max_rails_in_city=max_rails_in_city
         ),
-        schedule_generator=sparse_schedule_generator(),
+        line_generator=sparse_line_generator(),
         number_of_agents=n_agents,
         obs_builder_object=tree_observation
     )
@@ -172,7 +171,7 @@ def train_agent(n_episodes):
 
         if episode_idx % 100 == 0:
             end = "\n"
-            torch.save(policy.qnetwork_local, './checkpoints/single-' + str(episode_idx) + '.pth')
+            torch.save(policy.qnetwork_local, './baselines/checkpoints/single-' + str(episode_idx) + '.pth')
             action_count = [1] * action_size
         else:
             end = " "
