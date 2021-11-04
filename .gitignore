@@ -130,3 +130,6 @@ scratch/
 !checkpoints/.gitkeep
 replay_buffers/*
 !replay_buffers/.gitkeep
+*.pth
+wandb/
+runs/

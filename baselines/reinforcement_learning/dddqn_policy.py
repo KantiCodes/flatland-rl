@@ -55,6 +55,8 @@ class DDDQNPolicy(Policy):
 
     def act(self, state, eps=0.):
         state = torch.from_numpy(state).float().unsqueeze(0).to(self.device)
+        # set the self.trainng of the model to false
+        # switches to evaluation mode 
         self.qnetwork_local.eval()
         with torch.no_grad():
             action_values = self.qnetwork_local(state)

@@ -4,6 +4,8 @@ from argparse import ArgumentParser, Namespace
 from collections import deque
 from pathlib import Path
 
+from flatland.envs import line_generators
+
 base_dir = Path(__file__).resolve().parent.parent
 sys.path.append(str(base_dir))
 
@@ -30,11 +32,10 @@ multi_agent_training.py is a better starting point to train your own solution!
 def train_agent(n_episodes):
     # Environment parameters
     n_agents = 1
-    x_dim = 25
-    y_dim = 25
-    n_cities = 4
+    x_dim = 30
+    y_dim = 30
+    n_cities = 3
     max_rails_between_cities = 2
-    max_rails_in_city = 3
     seed = 42
 
     # Observation parameters
@@ -61,7 +62,7 @@ def train_agent(n_episodes):
             max_num_cities=n_cities,
             seed=seed,
             grid_mode=False,
-            max_rails_between_cities=max_rails_between_cities,
+            max_rails_between_cities=max_rails_between_cities
         ),
         line_generator=sparse_line_generator(),
         number_of_agents=n_agents,
@@ -196,7 +197,7 @@ def train_agent(n_episodes):
 
 if __name__ == "__main__":
     parser = ArgumentParser()
-    parser.add_argument("-n", "--n_episodes", dest="n_episodes", help="number of episodes to run", default=500, type=int)
+    parser.add_argument("-n", "--n_episodes", dest="n_episodes", help="number of episodes to run", default=1000, type=int)
     args = parser.parse_args()
 
     train_agent(args.n_episodes)

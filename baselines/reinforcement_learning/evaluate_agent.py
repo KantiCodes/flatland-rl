@@ -6,6 +6,7 @@ from argparse import ArgumentParser, Namespace
 from multiprocessing import Pool
 from pathlib import Path
 from pprint import pprint
+from flatland.envs import line_generators
 
 import numpy as np
 import torch
@@ -14,7 +15,7 @@ from flatland.envs.observations import TreeObsForRailEnv
 from flatland.envs.predictions import ShortestPathPredictorForRailEnv
 from flatland.envs.rail_env import RailEnv
 from flatland.envs.rail_generators import sparse_rail_generator
-from flatland.envs.schedule_generators import sparse_schedule_generator
+from flatland.envs.line_generators import sparse_line_generator
 from flatland.utils.rendertools import RenderTool
 
 base_dir = Path(__file__).resolve().parent.parent
@@ -43,7 +44,6 @@ def eval_policy(env_params, checkpoint, n_eval_episodes, max_steps, action_size,
     y_dim = env_params.y_dim
     n_cities = env_params.n_cities
     max_rails_between_cities = env_params.max_rails_between_cities
-    max_rails_in_city = env_params.max_rails_in_city
 
     # Malfunction and speed profiles
     # TODO pass these parameters properly from main!
@@ -76,10 +76,9 @@ def eval_policy(env_params, checkpoint, n_eval_episodes, max_steps, action_size,
         rail_generator=sparse_rail_generator(
             max_num_cities=n_cities,
             grid_mode=False,
-            max_rails_between_cities=max_rails_between_cities,
-            max_rails_in_city=max_rails_in_city,
+            max_rails_between_cities=max_rails_between_cities
         ),
-        schedule_generator=sparse_schedule_generator(speed_profiles),
+        line_generator=sparse_line_generator(speed_profiles),
         number_of_agents=n_agents,
         malfunction_generator_and_process_data=malfunction_from_params(malfunction_parameters),
         obs_builder_object=tree_observation
@@ -242,11 +241,10 @@ def evaluate_agents(file, n_evaluation_episodes, use_gpu, render, allow_skipping
     small_v0_params = {
         # sample configuration
         "n_agents": 5,
-        "x_dim": 25,
-        "y_dim": 25,
+        "x_dim": 30,
+        "y_dim": 30,
         "n_cities": 4,
         "max_rails_between_cities": 2,
-        "max_rails_in_city": 3,
 
         # observations
         "observation_tree_depth": 2,
@@ -258,11 +256,10 @@ def evaluate_agents(file, n_evaluation_episodes, use_gpu, render, allow_skipping
     test0_params = {
         # sample configuration
         "n_agents": 5,
-        "x_dim": 25,
-        "y_dim": 25,
+        "x_dim": 30,
+        "y_dim": 30,
         "n_cities": 2,
         "max_rails_between_cities": 2,
-        "max_rails_in_city": 3,
 
         # observations
         "observation_tree_depth": 2,
@@ -278,7 +275,6 @@ def evaluate_agents(file, n_evaluation_episodes, use_gpu, render, allow_skipping
         "y_dim": 30,
         "n_cities": 2,
         "max_rails_between_cities": 2,
-        "max_rails_in_city": 3,
 
         # observations
         "observation_tree_depth": 2,
@@ -294,7 +290,6 @@ def evaluate_agents(file, n_evaluation_episodes, use_gpu, render, allow_skipping
         "y_dim": 35,
         "n_cities": 5,
         "max_rails_between_cities": 2,
-        "max_rails_in_city": 4,
 
         # observations
         "observation_tree_depth": 2,
@@ -302,7 +297,7 @@ def evaluate_agents(file, n_evaluation_episodes, use_gpu, render, allow_skipping
         "observation_max_path_depth": 20
     }
 
-    params = small_v0_params
+    params = test0_params
     env_params = Namespace(**params)
 
     print("Environment parameters:")

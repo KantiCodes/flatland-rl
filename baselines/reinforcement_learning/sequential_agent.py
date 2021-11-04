@@ -4,8 +4,8 @@ import numpy as np
 from flatland.envs.observations import TreeObsForRailEnv
 from flatland.envs.predictions import ShortestPathPredictorForRailEnv
 from flatland.envs.rail_env import RailEnv
-from flatland.envs.rail_generators import complex_rail_generator
-from flatland.envs.schedule_generators import complex_schedule_generator
+from flatland.envs.rail_generators import sparse_rail_generator
+from flatland.envs.line_generators import sparse_line_generator
 from flatland.utils.rendertools import RenderTool
 from pathlib import Path
 
@@ -32,12 +32,12 @@ min_dist = int(0.75 * min(x_dim, y_dim))
 env = RailEnv(
     width=x_dim,
     height=y_dim,
-    rail_generator=complex_rail_generator(
+    rail_generator=sparse_rail_generator(
         nr_start_goal=n_goals, nr_extra=5, min_dist=min_dist,
         max_dist=99999,
         seed=0
     ),
-    schedule_generator=complex_schedule_generator(),
+    schedule_generator=sparse_line_generator(),
     obs_builder_object=TreeObsForRailEnv(max_depth=1, predictor=ShortestPathPredictorForRailEnv()),
     number_of_agents=n_agents)
 env.reset(True, True)
