@@ -34,7 +34,7 @@ checkpoint = "checkpoints/sample-checkpoint.pth"
 USE_ACTION_CACHE = True
 
 # Observation parameters (must match training parameters!)
-observation_tree_depth = 2
+observation_tree_depth = 2  # The number of steps that tree observation is going to follow for each agent
 observation_radius = 10
 observation_max_path_depth = 30
 
