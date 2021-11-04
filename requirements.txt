@@ -210,6 +210,8 @@ prometheus-client==0.11.0
     # via notebook
 prompt-toolkit==3.0.20
     # via ipython
+psutil==5.8.0
+    # via -r requirements.in
 ptyprocess==0.7.0
     # via
     #   pexpect
