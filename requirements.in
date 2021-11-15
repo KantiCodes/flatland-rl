@@ -3,3 +3,5 @@ flatland-rl
 numpy
 scipy
 torch
+psutil
+tensorboard
