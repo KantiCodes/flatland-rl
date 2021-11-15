@@ -8,7 +8,7 @@ import time
 
 import torch
 from flatland.core.env_observation_builder import DummyObservationBuilder
-from flatland.envs.observations import TreeObsForRailEnv
+from flatland.envs.observations import GlobalObsForRailEnv, TreeObsForRailEnv
 from flatland.evaluators.client import FlatlandRemoteClient
 from flatland.envs.predictions import ShortestPathPredictorForRailEnv
 from flatland.evaluators.client import TimeoutException
@@ -45,6 +45,7 @@ remote_client = FlatlandRemoteClient()
 # Observation builder
 predictor = ShortestPathPredictorForRailEnv(observation_max_path_depth)
 tree_observation = TreeObsForRailEnv(max_depth=observation_tree_depth, predictor=predictor)
+global_observation = GlobalObsForRailEnv()
 
 # Calculates state and action sizes
 n_nodes = sum([np.power(4, i) for i in range(observation_tree_depth + 1)])

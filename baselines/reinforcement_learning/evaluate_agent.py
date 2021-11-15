@@ -252,15 +252,30 @@ def evaluate_agents(file, n_evaluation_episodes, use_gpu, render, allow_skipping
         "observation_max_path_depth": 20
     }
 
-    # Test_0
-    test0_params = {
+     # Test_init
+    test_init = {
         # sample configuration
-        "n_agents": 5,
-        "x_dim": 30,
-        "y_dim": 30,
+        "n_agents": 2,
+        "x_dim": 25,
+        "y_dim": 25,
         "n_cities": 2,
         "max_rails_between_cities": 2,
 
+        # observations
+        "observation_tree_depth": 2,
+        "observation_radius": 10,
+        "observation_max_path_depth": 20
+    }
+
+    # Test_0
+    test0_params = {
+        # sample configuration
+        "n_agents": 3,
+        "x_dim": 30,
+        "y_dim": 30,
+        "n_cities": 3,
+        "max_rails_between_cities": 3,
+        
         # observations
         "observation_tree_depth": 2,
         "observation_radius": 10,

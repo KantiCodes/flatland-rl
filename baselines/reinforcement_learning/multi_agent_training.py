@@ -440,12 +440,23 @@ if __name__ == "__main__":
     parser.add_argument("--learning_rate", help="learning rate", default=0.5e-4, type=float)
     parser.add_argument("--hidden_size", help="hidden size (2 fc layers)", default=128, type=int)
     parser.add_argument("--update_every", help="how often to update the network", default=8, type=int)
-    parser.add_argument("--use_gpu", help="use GPU if available", default=False, type=bool)
-    parser.add_argument("--num_threads", help="number of threads PyTorch can use", default=1, type=int)
-    parser.add_argument("--render", help="render 1 episode in 100", default=False, type=bool)
+    parser.add_argument("--use_gpu", help="use GPU if available", default=True, type=bool)
+    parser.add_argument("--num_threads", help="number of threads PyTorch can use", default=2, type=int)
+    parser.add_argument("--render", help="render 1 episode in 100", default=True, type=bool)
     training_params = parser.parse_args()
 
     env_params = [
+        {
+        # Test_-1
+            "n_agents": 2,
+            "x_dim": 25,
+            "y_dim": 25,
+            "n_cities": 2,
+            "max_rails_between_cities": 2,
+            "max_rails_in_city": 2,
+            "malfunction_rate": 1 / 100,
+            "seed": 0
+        },
         {
             # Test_0
             "n_agents": 5,
