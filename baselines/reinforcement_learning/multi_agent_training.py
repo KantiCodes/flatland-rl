@@ -27,13 +27,6 @@ from utils.timer import Timer
 from utils.observation_utils import normalize_observation
 from reinforcement_learning.dddqn_policy import DDDQNPolicy
 
-try:
-    import wandb
-
-    wandb.init(sync_tensorboard=True)
-except ImportError:
-    print("Install wandb to log to Weights & Biases")
-
 """
 This file shows how to train multiple agents using a reinforcement learning approach.
 After training an agent, you can submit it straight away to the NeurIPS 2020 Flatland challenge!
@@ -400,6 +393,7 @@ def eval_policy(env, policy, train_params, obs_params):
 
             for agent in env.get_agent_handles():
                 score += all_rewards[agent]
+                print(f"This is the score: {score}")
 
             final_step = step
 
@@ -442,7 +436,7 @@ if __name__ == "__main__":
     parser.add_argument("--update_every", help="how often to update the network", default=8, type=int)
     parser.add_argument("--use_gpu", help="use GPU if available", default=True, type=bool)
     parser.add_argument("--num_threads", help="number of threads PyTorch can use", default=2, type=int)
-    parser.add_argument("--render", help="render 1 episode in 100", default=True, type=bool)
+    parser.add_argument("--render", help="render 1 episode in 100", default=False, type=bool)
     training_params = parser.parse_args()
 
     env_params = [
