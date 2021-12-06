@@ -224,7 +224,7 @@ def train_agent(train_params, train_env_params, eval_env_params, obs_params):
 
             # Environment step
             step_timer.start()
-            next_obs, all_rewards, done, info = train_env.step(action_dict)
+            next_obs, all_rewards, done, info = train_env.step(action_dict, reward_shaping=True)
             step_timer.end()
 
             # Render an episode at some interval
@@ -360,7 +360,7 @@ def format_action_prob(action_probs):
     return buffer
 
 
-def eval_policy(env, policy, train_params, obs_params):
+def eval_policy(env:RailEnv, policy, train_params, obs_params):
     n_eval_episodes = train_params.n_evaluation_episodes
     max_steps = env._max_episode_steps
     tree_depth = obs_params.observation_tree_depth
@@ -389,11 +389,12 @@ def eval_policy(env, policy, train_params, obs_params):
                     action = policy.act(agent_obs[agent], eps=0.0)
                 action_dict.update({agent: action})
 
-            obs, all_rewards, done, info = env.step(action_dict)
+            obs, all_rewards, done, info = env.step(action_dict, reward_shaping=True)
 
             for agent in env.get_agent_handles():
                 score += all_rewards[agent]
-                print(f"This is the score: {score}")
+                # if step%1 == 0:
+                #     print(f"Agent: {agent} has the score: {score}")
 
             final_step = step
 
@@ -421,16 +422,16 @@ if __name__ == "__main__":
     parser.add_argument("-e", "--evaluation_env_config", help="evaluation config id (eg 0 for Test_0)", default=0, type=int)
     parser.add_argument("--n_evaluation_episodes", help="number of evaluation episodes", default=25, type=int)
     parser.add_argument("--checkpoint_interval", help="checkpoint interval", default=100, type=int)
-    parser.add_argument("--eps_start", help="max exploration", default=1.0, type=float)
-    parser.add_argument("--eps_end", help="min exploration", default=0.01, type=float)
-    parser.add_argument("--eps_decay", help="exploration decay", default=0.99, type=float)
+    parser.add_argument("--eps_start", help="max exploration", default=1.0, type=float)  # max exploration
+    parser.add_argument("--eps_end", help="min exploration", default=0.01, type=float)  # min exploration
+    parser.add_argument("--eps_decay", help="exploration decay", default=0.99, type=float)  # the decay of the exploration
     parser.add_argument("--buffer_size", help="replay buffer size", default=int(1e5), type=int)
     parser.add_argument("--buffer_min_size", help="min buffer size to start training", default=0, type=int)
     parser.add_argument("--restore_replay_buffer", help="replay buffer to restore", default="", type=str)
     parser.add_argument("--save_replay_buffer", help="save replay buffer at each evaluation interval", default=False, type=bool)
     parser.add_argument("--batch_size", help="minibatch size", default=128, type=int)
-    parser.add_argument("--gamma", help="discount factor", default=0.99, type=float)
-    parser.add_argument("--tau", help="soft update of target parameters", default=1e-3, type=float)
+    parser.add_argument("--gamma", help="discount factor", default=0.99, type=float)  # multiplier over the targets 
+    parser.add_argument("--tau", help="soft update of target parameters", default=1e-3, type=float)  # we don't know X
     parser.add_argument("--learning_rate", help="learning rate", default=0.5e-4, type=float)
     parser.add_argument("--hidden_size", help="hidden size (2 fc layers)", default=128, type=int)
     parser.add_argument("--update_every", help="how often to update the network", default=8, type=int)

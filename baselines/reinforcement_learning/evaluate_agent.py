@@ -17,7 +17,7 @@ from flatland.envs.rail_env import RailEnv
 from flatland.envs.rail_generators import sparse_rail_generator
 from flatland.envs.line_generators import sparse_line_generator
 from flatland.utils.rendertools import RenderTool
-
+import time
 base_dir = Path(__file__).resolve().parent.parent
 sys.path.append(str(base_dir))
 
@@ -97,6 +97,7 @@ def eval_policy(env_params, checkpoint, n_eval_episodes, max_steps, action_size,
     step_times = []
 
     for episode_idx in range(n_eval_episodes):
+        time.sleep(2)
         seed += 1
 
         inference_timer = Timer()
@@ -154,7 +155,7 @@ def eval_policy(env_params, checkpoint, n_eval_episodes, max_steps, action_size,
             agent_timer.end()
 
             step_timer.start()
-            obs, all_rewards, done, info = env.step(action_dict)
+            obs, all_rewards, done, info = env.step(action_dict, reward_shaping=False)
             step_timer.end()
 
             if render:
@@ -270,10 +271,10 @@ def evaluate_agents(file, n_evaluation_episodes, use_gpu, render, allow_skipping
     # Test_0
     test0_params = {
         # sample configuration
-        "n_agents": 3,
-        "x_dim": 30,
-        "y_dim": 30,
-        "n_cities": 3,
+        "n_agents": 2,
+        "x_dim": 25,
+        "y_dim": 25,
+        "n_cities": 2,
         "max_rails_between_cities": 3,
         
         # observations
@@ -312,7 +313,7 @@ def evaluate_agents(file, n_evaluation_episodes, use_gpu, render, allow_skipping
         "observation_max_path_depth": 20
     }
 
-    params = test0_params
+    params = test_init
     env_params = Namespace(**params)
 
     print("Environment parameters:")
