@@ -98,7 +98,20 @@ celerybeat-schedule
 
 # Environments
 .env
-.venv
+.venv/*
+!.venv/lib
+.venv/lib/*
+!.venv/lib/python3.7
+.venv/lib/python3.7/*
+!.venv/lib/python3.7/site-packages
+.venv/lib/python3.7/site-packages/*
+!.venv/lib/python3.7/site-packages/flatland
+.venv/lib/python3.7/site-packages/flatland/*
+!.venv/lib/python3.7/site-packages/flatland/envs
+.venv/lib/python3.7/site-packages/flatland/envs/*
+!.venv/lib/python3.7/site-packages/flatland/envs/agent_utils.py
+!.venv/lib/python3.7/site-packages/flatland/envs/rail_env.py
+.stablevenv
 env/
 venv/
 ENV/

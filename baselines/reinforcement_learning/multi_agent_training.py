@@ -225,6 +225,8 @@ def train_agent(train_params, train_env_params, eval_env_params, obs_params):
             # Environment step
             step_timer.start()
             next_obs, all_rewards, done, info = train_env.step(action_dict, reward_shaping=True)
+            # next_obs, all_rewards, done, info = train_env.step(action_dict)
+
             step_timer.end()
 
             # Render an episode at some interval
@@ -389,7 +391,9 @@ def eval_policy(env:RailEnv, policy, train_params, obs_params):
                     action = policy.act(agent_obs[agent], eps=0.0)
                 action_dict.update({agent: action})
 
-            obs, all_rewards, done, info = env.step(action_dict, reward_shaping=True)
+            # obs, all_rewards, done, info = env.step(action_dict)
+            obs, all_rewards, done, info = env.step(action_dict, reward_shaping=False)
+
 
             for agent in env.get_agent_handles():
                 score += all_rewards[agent]
@@ -424,7 +428,7 @@ if __name__ == "__main__":
     parser.add_argument("--checkpoint_interval", help="checkpoint interval", default=100, type=int)
     parser.add_argument("--eps_start", help="max exploration", default=1.0, type=float)  # max exploration
     parser.add_argument("--eps_end", help="min exploration", default=0.01, type=float)  # min exploration
-    parser.add_argument("--eps_decay", help="exploration decay", default=0.99, type=float)  # the decay of the exploration
+    parser.add_argument("--eps_decay", help="exploration decay", default=0.995, type=float)  # the decay of the exploration
     parser.add_argument("--buffer_size", help="replay buffer size", default=int(1e5), type=int)
     parser.add_argument("--buffer_min_size", help="min buffer size to start training", default=0, type=int)
     parser.add_argument("--restore_replay_buffer", help="replay buffer to restore", default="", type=str)
@@ -516,3 +520,4 @@ if __name__ == "__main__":
 
     os.environ["OMP_NUM_THREADS"] = str(training_params.num_threads)
     train_agent(training_params, Namespace(**training_env_params), Namespace(**evaluation_env_params), Namespace(**obs_params))
+
