@@ -155,7 +155,7 @@ def eval_policy(env_params, checkpoint, n_eval_episodes, max_steps, action_size,
             agent_timer.end()
 
             step_timer.start()
-            obs, all_rewards, done, info = env.step(action_dict, reward_shaping=False)
+            obs, all_rewards, done, info = env.step(action_dict)
             step_timer.end()
 
             if render:
@@ -178,6 +178,7 @@ def eval_policy(env_params, checkpoint, n_eval_episodes, max_steps, action_size,
                 break
 
         normalized_score = score / (max_steps * env.get_num_agents())
+        print(f'noralized score = {normalized_score}, score = {score}, max number of steps = {max_steps}, number of agents = {env.get_num_agents()}')
         scores.append(normalized_score)
 
         tasks_finished = sum(done[idx] for idx in env.get_agent_handles())

@@ -224,7 +224,7 @@ def train_agent(train_params, train_env_params, eval_env_params, obs_params):
 
             # Environment step
             step_timer.start()
-            next_obs, all_rewards, done, info = train_env.step(action_dict, reward_shaping=True)
+            next_obs, all_rewards, done, info = train_env.step(action_dict)
             # next_obs, all_rewards, done, info = train_env.step(action_dict)
 
             step_timer.end()
