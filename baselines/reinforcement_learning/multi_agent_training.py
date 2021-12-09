@@ -20,6 +20,8 @@ from flatland.envs.observations import TreeObsForRailEnv
 from flatland.envs.malfunction_generators import malfunction_from_params, MalfunctionParameters
 from flatland.envs.predictions import ShortestPathPredictorForRailEnv
 
+import wandb
+
 base_dir = Path(__file__).resolve().parent.parent
 sys.path.append(str(base_dir))
 
@@ -27,12 +29,6 @@ from utils.timer import Timer
 from utils.observation_utils import normalize_observation
 from reinforcement_learning.dddqn_policy import DDDQNPolicy
 
-try:
-    import wandb
-
-    wandb.init(sync_tensorboard=True)
-except ImportError:
-    print("Install wandb to log to Weights & Biases")
 
 """
 This file shows how to train multiple agents using a reinforcement learning approach.
@@ -42,8 +38,10 @@ Agent documentation: https://flatland.aicrowd.com/getting-started/rl/multi-agent
 Submission documentation: https://flatland.aicrowd.com/getting-started/first-submission.html
 """
 
+wandb.init(project="flatland_checkpoint_25", entity="tomke997")
 
 def create_rail_env(env_params, tree_observation):
+
     n_agents = env_params.n_agents
     x_dim = env_params.x_dim
     y_dim = env_params.y_dim
@@ -332,6 +330,7 @@ def train_agent(train_params, train_env_params, eval_env_params, obs_params):
             smoothed_eval_normalized_score = smoothed_eval_normalized_score * smoothing + np.mean(scores) * (1.0 - smoothing)
             smoothed_eval_completion = smoothed_eval_completion * smoothing + np.mean(completions) * (1.0 - smoothing)
             writer.add_scalar("evaluation/smoothed_score", smoothed_eval_normalized_score, episode_idx)
+            wandb.log({"evaluation/smoothed_score": smoothed_eval_normalized_score})
             writer.add_scalar("evaluation/smoothed_completion", smoothed_eval_completion, episode_idx)
 
         # Save logs to tensorboard
@@ -423,7 +422,7 @@ def eval_policy(env, policy, train_params, obs_params):
 if __name__ == "__main__":
     parser = ArgumentParser()
     parser.add_argument("-n", "--n_episodes", help="number of episodes to run", default=2500, type=int)
-    parser.add_argument("-t", "--training_env_config", help="training config id (eg 0 for Test_0)", default=0, type=int)
+    parser.add_argument("-t", "--training_env_config", help="training config id (eg 0 for Test_0)", default=1, type=int)
     parser.add_argument("-e", "--evaluation_env_config", help="evaluation config id (eg 0 for Test_0)", default=0, type=int)
     parser.add_argument("--n_evaluation_episodes", help="number of evaluation episodes", default=25, type=int)
     parser.add_argument("--checkpoint_interval", help="checkpoint interval", default=100, type=int)
@@ -432,7 +431,7 @@ if __name__ == "__main__":
     parser.add_argument("--eps_decay", help="exploration decay", default=0.99, type=float)
     parser.add_argument("--buffer_size", help="replay buffer size", default=int(1e5), type=int)
     parser.add_argument("--buffer_min_size", help="min buffer size to start training", default=0, type=int)
-    parser.add_argument("--restore_replay_buffer", help="replay buffer to restore", default="", type=str)
+    parser.add_argument("--restore_replay_buffer", help="replay buffer to restore", default="", type=str) # skipped this one 
     parser.add_argument("--save_replay_buffer", help="save replay buffer at each evaluation interval", default=False, type=bool)
     parser.add_argument("--batch_size", help="minibatch size", default=128, type=int)
     parser.add_argument("--gamma", help="discount factor", default=0.99, type=float)

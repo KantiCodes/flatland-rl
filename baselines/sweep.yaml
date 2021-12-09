@@ -1,21 +1,96 @@
 # This sweep file can be used to run hyper-parameter search using Weight & Biases tools
 # See: https://docs.wandb.com/sweeps
-program: reinforcement_learning/multi_agent_training.py
+
+# methods for sweepind:
+# grid - every possible combination
+# random - random 
+# bayers - creates probanbilistic model (chooses parameters with high probablility of improving the metrics) worse with more parameters
+
+project: flatland_checkpoint_25
+entity: tomke997
+program: ./baselines/reinforcement_learning/multi_agent_training.py
 method: bayes
 metric:
-    name: evaluation/smoothed_score
+    name: evaluation/smoothed_score #metric used to evaluate 
     goal: maximize
 parameters:
+    # number of episodes to run
     n_episodes:
-        values: [2000]
+        # default: 2500 
+        values: [500]
+    # evaluation config id (eg 0 for Test_0)
+    n_evaluation_episodes:
+        # default: 25
+        values: [25]
+    # hidden size (2 fc layers)
     hidden_size:
         # default: 256
         values: [128, 256, 512]
+    # evaluation config id
+    evaluation_env_config:
+        # default: 0
+        values: [0]
+    # replay buffer size
     buffer_size:
         # default: 50000
-        values: [50000, 100000, 500000, 1000000]
+        values: [25000, 50000, 100000, 500000, 1000000]
+    # min buffer size to start training
+    buffer_min_size:
+         # default: 0
+        values: [0]
+    # replay buffer size
     batch_size:
-        # default: 32
-        values: [16, 32, 64, 128]
+        # default: 128
+        values: [16, 32, 64, 128, 250, 300]
+    # checkpoint interval    
+    checkpoint_interval:
+        # default: 100
+        values: [25]
+    # max exploration
+    eps_start:
+         # default: 1.0
+        values: [1.0]
+    # min exploration
+    eps_end:
+         # default: 0.01
+        values: [0.01, 0.1]
+    # exploration decay
+    eps_decay:
+         # default: 0.99
+        values: [0.99]
+    # discount factor
+    gamma:
+         # default: 0.99
+        values: [0.99]
+    # soft update of target parameters
+    tau:
+        # default: 1e-3
+        values: [1e-1, 1e-3, 1e-6]
+    # learning rate, 
+    learning_rate:
+        # default: 0.5e-4
+        values: [0.1, 0.5e-4, 0.5e-7, 0.001]
+    # how often to update the network
+    update_every:
+        # default: 8
+        values: [5, 8, 15]
+    # use GPU if available
+    use_gpu:
+         # default: True
+        values: [True]
+    # number of threads PyTorch can use
+    num_threads:
+         # default: 2
+        values: [2]
+    # render 1 episode in 100
+    render:
+         # default: True
+        values: [True]
+    # training config id
     training_env_config:
         values: [0, 1, 2]
+command:
+  - ${env}
+  - .\.venv\Scripts\python.exe # use your own python path
+  - ${program}
+  - ${args}        
