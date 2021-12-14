@@ -257,11 +257,11 @@ def evaluate_agents(file, n_evaluation_episodes, use_gpu, render, allow_skipping
      # Test_init
     test_init = {
         # sample configuration
-        "n_agents": 2,
+        "n_agents": 3,
         "x_dim": 25,
         "y_dim": 25,
-        "n_cities": 2,
-        "max_rails_between_cities": 2,
+        "n_cities": 3,
+        "max_rails_between_cities": 3,
 
         # observations
         "observation_tree_depth": 2,
@@ -272,11 +272,11 @@ def evaluate_agents(file, n_evaluation_episodes, use_gpu, render, allow_skipping
     # Test_0
     test0_params = {
         # sample configuration
-        "n_agents": 2,
-        "x_dim": 25,
-        "y_dim": 25,
-        "n_cities": 2,
-        "max_rails_between_cities": 3,
+        "n_agents": 7,
+        "x_dim": 30,
+        "y_dim": 30,
+        "n_cities": 6,
+        "max_rails_between_cities": 5,
         
         # observations
         "observation_tree_depth": 2,
@@ -290,8 +290,8 @@ def evaluate_agents(file, n_evaluation_episodes, use_gpu, render, allow_skipping
         "n_agents": 10,
         "x_dim": 30,
         "y_dim": 30,
-        "n_cities": 2,
-        "max_rails_between_cities": 2,
+        "n_cities": 8,
+        "max_rails_between_cities": 4,
 
         # observations
         "observation_tree_depth": 2,

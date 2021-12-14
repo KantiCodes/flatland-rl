@@ -224,7 +224,7 @@ def train_agent(train_params, train_env_params, eval_env_params, obs_params):
 
             # Environment step
             step_timer.start()
-            next_obs, all_rewards, done, info = train_env.step(action_dict, reward_shaping=False)
+            next_obs, all_rewards, done, info = train_env.step(action_dict, reward_shaping=True)
             # next_obs, all_rewards, done, info = train_env.step(action_dict)
 
             step_timer.end()
@@ -447,34 +447,34 @@ if __name__ == "__main__":
     env_params = [
         {
         # Test_-1
-            "n_agents": 2,
+            "n_agents": 3,
             "x_dim": 25,
             "y_dim": 25,
-            "n_cities": 2,
-            "max_rails_between_cities": 2,
-            "max_rails_in_city": 2,
+            "n_cities": 3,
+            "max_rails_between_cities": 3,
+            "max_rails_in_city": 3,
             "malfunction_rate": 1 / 100,
             "seed": 0
         },
         {
             # Test_0
-            "n_agents": 5,
-            "x_dim": 25,
-            "y_dim": 25,
-            "n_cities": 2,
-            "max_rails_between_cities": 2,
-            "max_rails_in_city": 3,
-            "malfunction_rate": 1 / 50,
+            "n_agents": 4,
+            "x_dim": 30,
+            "y_dim": 30,
+            "n_cities": 4,
+            "max_rails_between_cities": 3,
+            "max_rails_in_city": 4,
+            "malfunction_rate": 1 / 100,
             "seed": 0
         },
         {
             # Test_1
-            "n_agents": 10,
+            "n_agents": 7,
             "x_dim": 30,
             "y_dim": 30,
-            "n_cities": 2,
-            "max_rails_between_cities": 2,
-            "max_rails_in_city": 3,
+            "n_cities": 6,
+            "max_rails_between_cities": 5,
+            "max_rails_in_city": 6,
             "malfunction_rate": 1 / 100,
             "seed": 0
         },
